@@ -31,7 +31,7 @@ spec:
   type: Python
   pythonVersion: "3"
   mode: cluster
-  image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0"
+  image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
   imagePullPolicy: Always
   mainClass: org.apache.spark.examples.SparkPi
   mainApplicationFile: "s3a://igticlusterbucket/pyspark/spark-operator-processing-job-batch.py"
@@ -71,4 +71,3 @@ spec:
     volumeMounts:
       - name: ivy
         mountPath: /tmp
-
