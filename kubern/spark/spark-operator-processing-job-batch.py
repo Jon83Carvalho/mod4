@@ -9,10 +9,10 @@ print("Chegamos até aqui-1")
 
 conf=(
 SparkConf()
-    .set("spark.hadoop.fs.s3.access.key",aws_access_key_id)
-    .set("spark.hadoop.fs.s3.secret.key",aws_secret_access_key)
-    .set("spark.hadoop.fs.s3.fast.upload",True)
-    #.set("spark.hadoop.fs.s3.impl","org.apache.hadoop.fs.s3a.S3AFileSystem")
+    .set("spark.hadoop.fs.s3a.access.key",aws_access_key_id)
+    .set("spark.hadoop.fs.s3a.secret.key",aws_secret_access_key)
+    .set("spark.hadoop.fs.s3a.fast.upload",True)
+    .set("spark.hadoop.fs.s3a.impl","org.apache.hadoop.fs.s3a.S3AFileSystem")
     .set("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.3")
 )
 
@@ -33,7 +33,7 @@ if __name__="__main__":
         .read
         .format("csv")
         .options(header='true',inferSchema='true', delimiter=',')
-        .load("s3://igticlusterbucket/raw/titanic.csv")
+        .load("s3a://igticlusterbucket/raw/titanic.csv")
     )
 
     df.show()
@@ -43,7 +43,7 @@ if __name__="__main__":
     .write
     .mode("overwrite")
     .format("parquet")
-    .save("s3://igticlusterbucket/process")
+    .save("s3a://igticlusterbucket/process")
     )
 
     print("***********")
