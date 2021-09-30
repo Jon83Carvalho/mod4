@@ -1,4 +1,5 @@
 import json
+import json
 
 from airflow.decorators import dag, task
 from airflow.utils.dates import days_ago
