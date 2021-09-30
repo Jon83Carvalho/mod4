@@ -8,17 +8,17 @@ import boto3
 
 aws_access_key_id = Variable.get('aws_access_key_id')
 aws_secret_access_key = Variable.get('aws_secret_access_key')
-glue = boto3.client('glue', region_name='us-east-1',
+glue = boto3.client('glue', region_name='us-east-2,
                     aws_access_key_id=aws_access_key_id, 
                     aws_secret_access_key=aws_secret_access_key)
 
 from airflow.utils.dates import days_ago
 
 def trigger_crawler_inscricao_func():
-        glue.start_crawler(Name='enem_anon_crawler')
+        glue.start_crawler(Name='crawler_anon')
 
 def trigger_crawler_final_func():
-        glue.start_crawler(Name='enem_uf_final_crawler')
+        glue.start_crawler(Name='crawler_uf')
 
 
 
@@ -38,10 +38,23 @@ with DAG(
     catchup=False,
     tags=['spark', 'kubernetes', 'batch', 'enem'],
 ) as dag:
+
+    #extracao=KubernetesPodOperator(
+    #    namespace='airflow',
+    #    image='awsimage',
+    #    cmds=['python','/run,py'],
+    #    name="extraction-enade-2017",
+    #    task_id="extraction-enade-2017",
+    #    image_pull_policy="Always",
+    #    is_delete_operator_pod=True,
+    #        get_logs:Any,
+    #    get_logs=True,
+    #)
+
     converte_parquet = SparkKubernetesOperator(
         task_id='converte_parquet',
         namespace="airflow",
-        application_file="enem_converte_parquet.yaml",
+        application_file="enem_converte_parquet.yaml",#tem de ficar no mesmo caminho
         kubernetes_conn_id="kubernetes_default",
         do_xcom_push=True,
     )
