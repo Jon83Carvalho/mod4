@@ -1,4 +1,5 @@
 import json
+import json
 
 from airflow.decorators import dag, task
 from airflow.utils.dates import days_ago
@@ -37,7 +38,7 @@ def tutorial_taskflow_api_etl():
         computes the total order value.
         """
         total_order_value = 0
-kub
+
         for value in order_data_dict.values():
             total_order_value += value
 
